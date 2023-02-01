@@ -1,0 +1,306 @@
+\documentclass[11pt,spanish,a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[top=20mm,bottom=20mm,left=20mm,right=20mm,nohead,nofoot]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,chains,matrix,positioning,scopes,intersections,calc,trees,positioning,arrows,chains,shapes.geometric,%
+  decorations.pathreplacing,decorations.pathmorphing,shapes,%
+  matrix,shapes.symbols}
+
+\usetikzlibrary{decorations.pathmorphing} % noisy shapes
+\usetikzlibrary{fit}	
+\usetikzlibrary{arrows}
+\usetikzlibrary{backgrounds}	
+\usetikzlibrary{arrows,chains,matrix,positioning,scopes}
+
+\pagestyle{empty}
+
+
+\newcommand{\LPO}{\ensuremath{\mathsf{LPO}}}
+\newcommand{\lpo}{\ensuremath{\mathcal{L}_{\mathsf{LPO}}}}
+\newcommand{\alpo}{\ensuremath{\mathsf{A}_{\lpo}}}
+\newcommand{\tlpo}{\ensuremath{\mathsf{T}_{\lpo}}}
+\newcommand{\flpo}{\ensuremath{\mathsf{F}_{\lpo}}}
+\newcommand{\mo}{\ensuremath{\mathcal{M}}}
+\newcommand{\dominio}{\ensuremath{\mathcal{D}}}%\mathfrak{D}}}
+\newcommand{\interp}{\ensuremath{\mathcal{I}}}%\Im}}
+\newcommand{\modelo}{\ensuremath{\mo = \langle \dominio, \interp\rangle}}
+\newcommand{\constantes}{\ensuremath{\mathcal{C}}}
+\newcommand{\variables}{\ensuremath{\mathcal{V}}}
+\newcommand{\functores}{\ensuremath{\mathcal{F}}}
+\newcommand{\predicados}{\ensuremath{\mathcal{P}}}
+
+
+
+\begin{document}
+
+\title{Ejemplos de tableaux anotados}
+\date{\mbox{}}
+\maketitle{}
+\thispagestyle{empty}
+
+\section{Lógica proposicional}
+\label{sec:logica-proposicional}
+
+\noindent{}\textbf{Satisfacibilidad.}
+Comenzamos con un tableau para comprobar si la fórmula $(p\to \lnot
+p\lor \lnot q)\land p$ es satisfacible: 
+
+  \begin{center}
+\begin{tikzpicture}[scale=1,baseline=(r1.base),level/.style={sibling
+    distance=3cm,level distance=1cm}] 
+  [-,thick]
+  \node[label=left:{1.}] (r1) {{$(p\to \lnot p\lor \lnot q)\land p$}}  
+  child {    
+    node[label=left:{2.},label=right:{$\alpha$,1}] {$p\to \lnot p\lor \lnot q$}  
+    child {    
+      node[label=left:{3.},label=right:{$\alpha$,1}] {$p$}
+      child[sibling distance=4cm] {    
+        node[label=left:{4.},label=right:{$\beta$,2}] {$\lnot p$}
+     child {    
+        node[label=right:{3,4}] {$\bigotimes$}
+      } 
+      } 
+      child {    
+        node[label=left:{5.},label=right:{$\beta$,2}] {$\lnot p\lor
+          \lnot q$}
+        child[level distance=1.5cm] {    
+          node[label=left:{6.},label=right:{$\beta$,5}] {$\lnot p$}
+          child {    
+            node[label=right:{3,6}] {$\bigotimes$}
+          } 
+        } 
+        child[level distance=1.5cm] {    
+          node[label=left:{7.},label=right:{$\beta$,5}] {$\lnot q$}
+        } 
+      } 
+   } 
+  };
+\end{tikzpicture}
+  \end{center}
+Como el tableau es abierto, la fórmula es satisfacible. A partir de
+los literales de la rama abierta definimos una interpretación $\sigma$
+que satisface $(p\to \lnot p\lor \lnot q)\land p$: $\sigma(p)=1$,
+$\sigma(q)=0$. 
+
+\bigskip{}
+
+\noindent{}\textbf{Consecuencia lógica.}
+Comprobamos $\{p\to q\land r,\ \lnot(q\land t)\}\models
+t\to\lnot p$ haciendo el tableau de las premisas y la negación de la
+conclusión. 
+  \begin{center}    
+\begin{tikzpicture}[scale=0.6,baseline=(r1.base),level/.style={sibling
+    distance=5cm,level distance=1.4cm}]
+  [-,thick]
+  \node[label=left:{1.},label=right:{{(Prem.)}}] (r1) {{$p\to q\land r$}}  
+  child {
+    node[label=left:{2.},label=right:{{(Prem.)}}] {{$\lnot (q\land t)$}}
+    child {
+      node[label=left:{3.},label=right:{{(Negac. Conc.)}}] {{$\lnot (t\to \lnot p)$}}
+      child {
+        node[label=right:{$\alpha$,3},label=left:{4.}] {$t$}
+        child {
+          node[label=left:{5.},label=right:{$\alpha$,3}] {$\lnot\lnot p$}
+          child {
+            node[label=left:{6.},label=right:{$\sigma$,5}] {$p$}
+            child {
+              node[label=left:{7.},label=right:{$\beta$,1}] {$\lnot
+                p$}
+              child{node[label=right:{6,7}] {$\bigotimes$}}
+            }
+            child {
+              node[label=left:{8.},label=right:{$\beta$,1}] {$q\land
+                r$}
+              child{
+                node[label=left:{9.},label=right:{$\alpha$,8}] {$q$}
+                child{
+                  node[label=left:{10.},label=right:{$\alpha$,8}]
+                  {$r$}
+                  child{
+                    node[label=left:{11.},label=right:{$\beta$,2}]
+                    {$\lnot q$}
+                    child{
+                      node[label=right:{9,11}]
+                      {$\bigotimes$}              }
+                  }
+                  child{
+                    node[label=left:{12.},label=right:{$\beta$,2}]
+                    {$\lnot t$}
+                    child{
+                      node[label=right:{4,12}]
+                      {$\bigotimes$}
+                  } 
+                  } 
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+\end{tikzpicture}
+\end{center}
+Obtenemos un {tableau cerrado}, por tanto la conclusión es
+consecuencia lógica de las premisas.
+
+\section{Lógica de predicados}
+\label{sec:logica-de-predicados}
+
+\noindent{}\textbf{Validez.}
+Comprobamos si la fórmula $\exists x (\lnot Px \land Qx) \to \exists y
+    (Qy\to \lnot Py\land Ry)$ es válida haciendo el tableau de la
+    negación. 
+\begin{center}
+\begin{tikzpicture}[scale=.8,baseline=(r1.base),level/.style={sibling
+    distance=6cm,level distance=1cm}]
+  [-,thick]
+  \node[label=left:{1.}] (r1) {$\lnot(\exists x (\lnot Px \land Qx) \to
+    \exists y (Qy\to \lnot Py\land Ry))$}  
+  child {
+    node[label=left:{2.},label=right:{$\alpha$,1}] {$\exists x (\lnot
+      Px \land Qx)$}
+    child {
+      node[label=left:{3.},label=right:{$\alpha$,1}] {$\lnot\exists y
+        (Qy\to \lnot Py\land Ry)$}
+      child {
+        node[label=left:{4.},label=right:{$\delta$,2}] {$\lnot Pa\land
+          Qa$}
+        child {
+          node[label=left:{5.},label=right:{$\alpha$,4}] {$\lnot Pa$}
+          child {
+            node[label=left:{6.},label=right:{$\alpha$,4}] {$Qa$}
+            child {
+              node[label=left:{7.},label=right:{$\gamma$,3}]
+              {$\lnot(Qa\to \lnot Pa\land Ra)$}
+              child {
+                node[label=left:{8.},label=right:{$\alpha$,7}]
+                {$Qa$}
+                child {
+                  node[label=left:{9.},label=right:{$\alpha$,7}]
+                  {$\lnot (\lnot Pa\land Ra)$}
+                  child {
+                    node[label=left:{10.},label=right:{$\beta$,9}]
+                    {$\lnot \lnot Pa$}
+                    child {
+                      node[label=below:{5,10}]
+                      {$\bigotimes$}}}
+                  child {
+                    node[label=left:{11.},label=right:{$\beta$,9}]
+                  {$\lnot Ra$}}}}}}}}}};
+\end{tikzpicture}
+\end{center}
+La rama de la derecha queda abierta, por lo que la fórmula inicial
+es satisfacible. Por tanto, $\exists x (\lnot Px \land Qx)
+\to \exists y (Qy\to \lnot Py\land Ry)$ no es válida. Podemos
+construir una estructura $\modelo$ que la hace falsa: 
+$\dominio=\{1\}$, $\interp(a)=1$, $\interp(Q)=\{1\}$,
+$\interp(P)=\interp(R)=\varnothing$.
+
+\bigskip{}
+
+\noindent{}\textbf{Satisfacibilidad.}
+Nos preguntamos si el conjunto $\{\forall x (Px\to Qx),\
+  \exists x Px,\ \lnot \forall x Qx\}$ es satisfacible. Hacemos su
+  tableau.  
+   \begin{center}
+      \begin{tikzpicture}[scale=0.8,baseline=(r1.base),level/.style={sibling
+    distance=6cm,level distance=1cm}]
+  [-,thick]
+  \node[label=left:{1.}] (r1) {$\forall x (Px\to Qx)$}  
+  child {
+    node[label=left:{2.}] {$\exists x Px$}
+    child {
+      node[label=left:{3.}] {$\lnot \forall x Qx$}
+      child {
+        node[label=right:{$\delta$,2},label=left:{4.}] {$Pa$}
+        child {
+          node[label=left:{5.},label=right:{$\delta$,3}] {$\lnot Q b$}
+          child {
+            node[label=left:{6.},label=right:{$\gamma$,1}] {$Pa\to Qa$}
+            child {
+              node[label=left:{7.},label=right:{$\gamma$,1}] {$Pb\to
+                Qb$}
+              child {
+                node[label=left:{8.},label=right:{$\beta$,6}] {$\lnot Pa$}
+                child {
+                  node[label=below:{4,8}] {$\bigotimes$}}}
+              child {
+                node[label=left:{9.},label=right:{$\beta$,6}] {$Q a$}
+                child {
+                  node[label=left:{10.},label=right:{$\beta$,7}] {$\lnot Pb$}}
+                child {
+                node[label=left:{11.},label=right:{$\beta$,7}] {$Qb$}
+                child {
+                  node[label=below:{5,11}] {$\bigotimes$}}}              
+}}}}}}};
+\end{tikzpicture}
+\end{center}
+El tableau es abierto, por lo que el conjunto propuesto es
+satisfacible. La rama abierta está formada por los nodos 1--7 y 9--10. Su
+literales son $\{Pa,\lnot Qb,Qa,\lnot Pb\}$. Definimos la
+estructura $\modelo$ con $\dominio=\{1,2\}$, $\interp(a)=1$,
+$\interp(b)=2$, $\interp(P)=\{1\}$ y $\interp(Q)=\{1\}$. Se puede
+comprobar que $\modelo$ satisface el conjunto de fórmulas propuesto.  
+
+\bigskip{}
+
+\noindent{}\textbf{Consecuencia lógica.}
+  Para comprobar $\forall x (Px \to \forall y Rxy),\ \forall x \exists y \lnot
+    Rxy \models \lnot Pa$ debemos hacer el tableau de las dos premisas
+    y la negación de la conclusión.
+    \begin{center}
+           \begin{tikzpicture}[scale=0.8,m
+             baseline=(r1.base),level/.style={sibling 
+               distance=6cm,level distance=1cm}]
+  [-,thick]
+  \node[label=right:{(Premisa)},label=left:{1.}] (r1) {$\forall x (Px\to \forall y Rxy)$}  
+  child {
+    node[label=right:{(Premisa)},label=left:{2.}] {$\forall x\exists
+      y\lnot R xy$}
+    child {
+      node[label=right:{(Negac. concl.)},label=left:{3.}] {$\lnot
+        \lnot Pa$}
+      child {
+        node[label=right:{$\sigma$,3},label=left:{4.}] {$Pa$}
+        child {
+          node[label=left:{5.},label=right:{$\gamma$,1}] {$Pa\to
+            \forall y Ray$}
+          child {
+            node[label=left:{6.},label=right:{$\beta$,5}] {$\lnot Pa$}
+            child {
+              node[label=below:{4,6}] {$\bigotimes$}}}
+          child {
+            node[label=left:{7.},label=right:{$\beta$,5}] {$\forall y
+              Ray$}
+            child {
+            node[label=left:{8.},label=right:{$\gamma$,2}] {$\exists y
+              \lnot R
+              ay$}
+            child {
+            node[label=left:{9.},label=right:{$\delta$,8}] {$\lnot R
+              ab$}
+            child {
+            node[label=left:{10.},label=right:{$\gamma$,7}] {$R ab$}
+            child {
+              node[label=below:{9,10}] {$\bigotimes$}      
+}}}}}}}}};
+\end{tikzpicture}
+    \end{center}
+Dado que el tableau es cerrado, se verifica la relación de
+consecuencia lógica propuesta.
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
